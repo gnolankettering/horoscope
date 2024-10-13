@@ -1,0 +1,56 @@
+openapi: 3.0.0
+info:
+  title: Daily Horoscope API
+  description: A REST API to return a daily horoscope using OpenAI's ChatGPT model.
+  version: 1.0.0
+
+servers:
+  - url: https://truth-open-acorn.glitch.me/
+    description: Glitch instance
+
+paths:
+  /daily_horoscope:
+    get:
+      summary: Get daily horoscope for a zodiac sign
+      description: Returns a daily horoscope for the given zodiac sign.
+      parameters:
+        - name: zodiac_sign
+          in: query
+          required: true
+          description: The zodiac sign for which to get the daily horoscope.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response with the horoscope.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  zodiac_sign:
+                    type: string
+                    description: The zodiac sign provided by the user.
+                  horoscope:
+                    type: string
+                    description: The generated daily horoscope.
+        '400':
+          description: Bad request, missing zodiac sign.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message indicating the missing parameter.
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message indicating what went wrong.
